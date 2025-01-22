@@ -1,0 +1,75 @@
+export const formSchema = [
+  {
+    id: "supplier",
+    label: "Supplier",
+    type: "searchable",
+    inputField: "string",
+    options: [
+      { id: 1, name: "Valero" },
+      { id: 2, name: "Citgo" },
+      { id: 3, name: "Marathon" },
+      { id: 4, name: "Shell" },
+    ],
+    required: true,
+  },
+  {
+    id: "shipFrom",
+    label: "Ship From Terminal",
+    type: "searchable",
+    options: [
+      { id: 1, name: "Motiva Enterprises LLC-1" },
+      { id: 2, name: "Phillips 66 PL - Pasadena" },
+      { id: 3, name: "Magellan Pipeline Company L.P.-6" },
+      { id: 4, name: "KM Liquids Terminals LLC" },
+    ],
+    required: true,
+  },
+  {
+    id: "shipVia",
+    label: "Ship via",
+    type: "searchable",
+    options: [
+      { id: 1, name: "TTE Company" },
+      { id: 2, name: "Always Energy 2" },
+      { id: 3, name: "Sunoco Company" },
+      { id: 4, name: "Campbell Oil" },
+    ],
+    required: true,
+  },
+  {
+    id: "paymentTerm",
+    label: "Payment Term",
+    type: "searchable",
+    options: [
+      { id: 1, name: "Net day 1" },
+      { id: 2, name: "Net day 7" },
+      { id: 3, name: "Net day 10" },
+      { id: 4, name: "Net day 15" },
+    ],
+    required: true,
+  },
+  {
+    id: "listOfProducts",
+    label: "Product",
+    type: "input",
+    options: [
+      { id: 1, name: "Product 1" },
+      { id: 2, name: "Product 2" },
+      { id: 3, name: "Product 3" },
+      { id: 4, name: "Product 4" },
+    ],
+    required: true,
+  },
+  {
+    id: "listOfChartOfAccount",
+    label: "Chart of account",
+    type: "select",
+    options: [
+      { label: "Payment Account", value: "Payment Account" },
+      { label: "Vendor Account", value: "Vendor Account" },
+      { label: "Sales Account", value: "Sales Account" },
+      { label: "Purchase Account", value: "Purchase Account" },
+    ],
+    required: true,
+  },
+];

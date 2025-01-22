@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es5", // JavaScript version to emit
+    "lib": ["dom", "dom.iterable", "esnext"], // Libraries for DOM and ES features
+    "allowJs": true, // Allow JavaScript files in the project
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "esModuleInterop": true, // Enable compatibility with CommonJS modules
+    "allowSyntheticDefaultImports": true, // Allow default imports from modules without a default export
+    "strict": true, // Enable all strict type checking options
+    "forceConsistentCasingInFileNames": true, // Ensure consistent file name casing
+    "module": "esnext", // Module code generation
+    "moduleResolution": "node", // Node.js-style module resolution
+    "resolveJsonModule": true, // Support for importing JSON modules
+    "isolatedModules": true, // Required for React projects with TypeScript
+    "jsx": "react-jsx" // JSX support for React 17+
+  },
+  "include": ["src"], // Files to include in the compilation
+  "exclude": ["node_modules"]
+}

@@ -15,8 +15,19 @@ export interface FormValues {
   contractNumber?: number;
   deferredInvoiceNumber?: number;
   deferredTaxDueDate?: Date;
-  listOfProducts: string;
   listOfChartOfAccount?: string;
+}
+
+export interface ProductFormValues {
+  listOfProducts: string;
+  billOfLanding: string;
+  pickupDate: Date;
+  grossQuantity: number;
+  netquantity: number;
+  rate: number;
+  taxes: number;
+  defTaxes: number;
+  lineTotal: number;
 }
 
 export interface InputFieldOption {

@@ -12,11 +12,16 @@ import {
 import dayjs from "dayjs";
 import { SaveOutlined } from "@ant-design/icons";
 
-import { formSchema } from "../../schema/formSchema";
+import {
+  formSchema,
+  otherChargesSchema,
+  productsSchema,
+} from "../../schema/formSchema";
 import { FieldValues, FormValues, InputFieldOption } from "./DynamicForm.types";
 import InputSearch from "../InputField/InputField";
 import { DynamicFormContainer } from "./DynamicForm.styles";
 import Modal from "../Modal";
+import ChargeFields from "./Charges";
 
 const DynamicForm: FC = () => {
   const [form] = Form.useForm();
@@ -26,18 +31,29 @@ const DynamicForm: FC = () => {
     null
   );
 
+  const [products, setProducts] = useState<FieldValues[]>([]);
+  const [otherCharges, setOtherCharges] = useState<FieldValues[]>([]);
+  const [isSaveDisable, setIsSaveDisable] = useState(false);
+
   const values = Form.useWatch([], form);
 
   useEffect(() => {
-    form
-      .validateFields({ validateOnly: true })
-      .then(() => setSubmittable(true))
-      .catch(() => setSubmittable(false));
-  }, [form, values]);
+    const validateForm = async () => {
+      try {
+        await form.validateFields({ validateOnly: true });
+        setSubmittable(true);
+      } catch {
+        setSubmittable(false);
+      }
+    };
+
+    validateForm();
+  }, [form, values, products, otherCharges]);
 
   const handleSubmit = (values: FormValues) => {
-    console.log("Submitted values:", values);
-    setSubmittedValues(values);
+    const fullValues = { ...values, products, otherCharges };
+    console.log("Submitted values:", fullValues);
+    setSubmittedValues(fullValues);
     setShowSuccessModal(true);
   };
 
@@ -96,34 +112,118 @@ const DynamicForm: FC = () => {
     }
   };
 
-  const renderSubmittedValues = () =>
-    Object.entries(submittedValues || {}).map(([key, value]) => {
-      const field = formSchema.find((f) => f.id === key);
-      if (!field?.id) return null;
+  const renderSubmittedValues = () => {
+    return (
+      <div>
+        {Object.entries(submittedValues || {}).map(([key, value]) => {
+          const field = formSchema.find((f) => f.id === key);
 
-      const label = field.label || key;
-      let formattedValue;
+          if (!field?.id) return null;
 
-      if (field.type === "date") {
-        const dateValue = dayjs(value);
-        formattedValue = dateValue.isValid()
-          ? dateValue.format("DD/MM/YYYY")
-          : "Invalid Date";
-      } else if (Array.isArray(value)) {
-        formattedValue = value.join(", ");
-      } else if (field.type === "switch") {
-        formattedValue = value ? "Yes" : "No";
-      } else {
-        formattedValue = value;
-      }
+          const label = field.label || key;
+          let formattedValue;
 
-      return (
-        <div key={key} style={{ marginBottom: "8px" }}>
-          <strong>{label}:</strong>
-          <span style={{ marginLeft: "8px" }}>{formattedValue}</span>
-        </div>
-      );
-    });
+          if (field.type === "date") {
+            const dateValue = dayjs(value);
+            formattedValue = dateValue.isValid()
+              ? dateValue.format("DD/MM/YYYY")
+              : "Invalid Date";
+          } else if (Array.isArray(value)) {
+            formattedValue = value.join(", ");
+          } else if (field.type === "switch") {
+            formattedValue = value ? "Yes" : "No";
+          } else {
+            formattedValue = value;
+          }
+
+          return (
+            <div key={key} style={{ marginBottom: "8px" }}>
+              <strong>{label}:</strong>
+              <span style={{ marginLeft: "8px" }}>{formattedValue}</span>
+            </div>
+          );
+        })}
+
+        {products?.map((product, index) => (
+          <div key={product.id} style={{ marginBottom: "16px" }}>
+            <strong>Product {index + 1}:</strong>
+            <div style={{ marginLeft: "16px" }}>
+              {Object.entries(product).map(([productKey, productValue]) => {
+                const productField = productsSchema.find(
+                  (f) => f.id === productKey
+                );
+                if (!productField) return null;
+
+                const productLabel = productField.label || productKey;
+                let formattedProductValue;
+
+                if (productField.type === "date") {
+                  const dateValue = dayjs(productValue);
+                  formattedProductValue = dateValue.isValid()
+                    ? dateValue.format("DD/MM/YYYY")
+                    : "Invalid Date";
+                } else if (productField.type === "switch") {
+                  formattedProductValue = productValue ? "Yes" : "No";
+                } else {
+                  formattedProductValue = productValue;
+                }
+
+                return (
+                  <div key={productKey} style={{ marginBottom: "4px" }}>
+                    <strong>{productLabel}:</strong>
+                    <span style={{ marginLeft: "8px" }}>
+                      {formattedProductValue}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+        {otherCharges?.map((otherCharges, index) => (
+          <div key={otherCharges.id} style={{ marginBottom: "16px" }}>
+            <strong>otherCharges {index + 1}:</strong>
+            <div style={{ marginLeft: "16px" }}>
+              {Object.entries(otherCharges).map(
+                ([otherChargesKey, otherChargesValue]) => {
+                  const otherChargesField = otherChargesSchema.find(
+                    (f) => f.id === otherChargesKey
+                  );
+                  if (!otherChargesField) return null;
+
+                  const otherChargesLabel =
+                    otherChargesField.label || otherChargesKey;
+                  let formattedotherChargesValue;
+
+                  if (otherChargesField.type === "date") {
+                    const dateValue = dayjs(otherChargesValue);
+                    formattedotherChargesValue = dateValue.isValid()
+                      ? dateValue.format("DD/MM/YYYY")
+                      : "Invalid Date";
+                  } else if (otherChargesField.type === "switch") {
+                    formattedotherChargesValue = otherChargesValue
+                      ? "Yes"
+                      : "No";
+                  } else {
+                    formattedotherChargesValue = otherChargesValue;
+                  }
+
+                  return (
+                    <div key={otherChargesKey} style={{ marginBottom: "4px" }}>
+                      <strong>{otherChargesLabel}:</strong>
+                      <span style={{ marginLeft: "8px" }}>
+                        {formattedotherChargesValue}
+                      </span>
+                    </div>
+                  );
+                }
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <DynamicFormContainer>
@@ -169,10 +269,36 @@ const DynamicForm: FC = () => {
             </Col>
           ))}
         </Row>
+
+        <Form.Item>
+          <ChargeFields
+            value={products}
+            onChange={setProducts}
+            form={form}
+            schema={productsSchema}
+            chargeTitle="Product"
+            setIsSaveDisabled={setIsSaveDisable}
+          />{" "}
+        </Form.Item>
+
+        <Form.Item>
+          <ChargeFields
+            value={otherCharges}
+            onChange={setOtherCharges}
+            schema={otherChargesSchema}
+            chargeTitle="Other"
+            form={form}
+            setIsSaveDisabled={setIsSaveDisable}
+          />{" "}
+        </Form.Item>
         <div className="button-row">
           <Divider />
           <Form.Item className="button-container">
-            <Button type="primary" htmlType="submit" disabled={!submittable}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled={!submittable || isSaveDisable}
+            >
               <SaveOutlined /> Save
             </Button>
             <Button style={{ marginLeft: "8px" }} htmlType="reset">

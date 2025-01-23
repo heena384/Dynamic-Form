@@ -141,18 +141,79 @@ export const formSchema = [
     type: "date",
     required: false,
   },
+];
 
+export const productsSchema = [
   {
     id: "listOfProducts",
     label: "Product",
     type: "input",
-    options: [
-      { id: 1, name: "Product 1" },
-      { id: 2, name: "Product 2" },
-      { id: 3, name: "Product 3" },
-      { id: 4, name: "Product 4" },
-    ],
-    required: true,
+    inputField: "string",
+    required: false,
+  },
+  {
+    id: "billOfLanding",
+    label: "Bill of landing",
+    type: "input",
+    required: false,
+  },
+  {
+    id: "pickupDate",
+    label: "Pickup Date",
+    type: "date",
+    required: false,
+  },
+  {
+    id: "grossQuantity",
+    label: "Gross quantity",
+    type: "number",
+    inputField: "number",
+    required: false,
+  },
+  {
+    id: "netquantity",
+    label: "Net quantity",
+    type: "number",
+    inputField: "number",
+    required: false,
+  },
+  {
+    id: "rate",
+    label: "Rate",
+    type: "number",
+    inputField: "number",
+    required: false,
+  },
+  {
+    id: "taxes",
+    label: "Taxes",
+    type: "number",
+    inputField: "number",
+    required: false,
+  },
+  {
+    id: "defTaxes",
+    label: "Def taxes",
+    type: "number",
+    inputField: "number",
+    required: false,
+  },
+  {
+    id: "lineTotal",
+    label: "Line total",
+    type: "number",
+    inputField: "number",
+    required: false,
+  },
+];
+
+export const otherChargesSchema = [
+  {
+    id: "description",
+    label: "Description",
+    type: "input",
+    inputField: "string",
+    required: false,
   },
   {
     id: "listOfChartOfAccount",
@@ -165,6 +226,54 @@ export const formSchema = [
       { label: "Sales Account", value: "Sales Account" },
       { label: "Purchase Account", value: "Purchase Account" },
     ],
-    required: true,
+    required: false,
+  },
+  {
+    id: "pickupDate",
+    label: "Pickup Date",
+    type: "date",
+    required: false,
+  },
+  {
+    id: "Quantity",
+    label: "quantity",
+    type: "number",
+    inputField: "number",
+    required: false,
+  },
+  {
+    id: "netquantity",
+    label: "Net quantity",
+    type: "number",
+    inputField: "number",
+    required: false,
+  },
+  {
+    id: "otherRate",
+    label: "Rate",
+    type: "number",
+    inputField: "number",
+    required: false,
+  },
+  {
+    id: "disc",
+    label: "Disc",
+    type: "number",
+    inputField: "number",
+    required: false,
+  },
+  {
+    id: "otherTaxes",
+    label: "Taxes",
+    type: "number",
+    inputField: "number",
+    required: false,
+  },
+  {
+    id: "otherlineTotal",
+    label: "Line total",
+    type: "number",
+    inputField: "number",
+    required: false,
   },
 ];

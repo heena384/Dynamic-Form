@@ -1,5 +1,16 @@
 import React, { FC, useEffect, useState } from "react";
-import { Form, Button, Row, Col, Select, Divider } from "antd";
+import {
+  Form,
+  Button,
+  Row,
+  Col,
+  Select,
+  Divider,
+  DatePicker,
+  Switch,
+} from "antd";
+import dayjs from "dayjs";
+import { SaveOutlined } from "@ant-design/icons";
 
 import { formSchema } from "../../schema/formSchema";
 import {
@@ -10,7 +21,6 @@ import {
 } from "./DynamicForm.types";
 import InputSearch from "../InputField/InputField";
 import { DynamicFormContainer } from "./DynamicForm.styles";
-import { SaveOutlined } from "@ant-design/icons";
 import Modal from "../Modal";
 
 const DynamicForm: FC = () => {
@@ -71,9 +81,24 @@ const DynamicForm: FC = () => {
       return (
         <Select
           defaultValue=""
-          style={{ width: 200 }}
+          style={{ width: "100%" }}
           options={options}
           onChange={(value) => handleSelectChange(field.id, value)}
+        />
+      );
+    } else if (field.type === "date") {
+      return (
+        <DatePicker
+          style={{ width: "100%" }}
+          value={form.getFieldValue(field.id)}
+          format="DD/MM/YYYY"
+          onChange={(date) => form.setFieldsValue({ [field.id]: date })}
+        />
+      );
+    } else if (field.type === "switch") {
+      return (
+        <Switch
+          onChange={(checked) => form.setFieldsValue({ [field.id]: checked })}
         />
       );
     }
@@ -104,8 +129,16 @@ const DynamicForm: FC = () => {
                   ...(field.inputField === "string"
                     ? [
                         {
-                          pattern: /^[A-Z@~`!@#$%^&*()_=+';:"/?><.,-]*$/i,
+                          pattern: /^[A-Za-z\s@~`!@#$%^&*()_=+';:"/?><.,-]*$/,
                           message: "Field does not accept numbers",
+                        },
+                      ]
+                    : []),
+                  ...(field.inputField === "number"
+                    ? [
+                        {
+                          pattern: /^\d+$/,
+                          message: "Field accepts numbers only",
                         },
                       ]
                     : []),
@@ -137,14 +170,36 @@ const DynamicForm: FC = () => {
           <div>
             <h4>Submitted Values:</h4>
             <div className="values">
-              {Object.entries(submittedValues || {}).map(([key, value]) => (
-                <div key={key} style={{ marginBottom: "8px" }}>
-                  <strong>{key}:</strong>
-                  <span style={{ marginLeft: "8px" }}>
-                    {JSON.stringify(value, null, 2)}
-                  </span>
-                </div>
-              ))}
+              {Object.entries(submittedValues || {}).map(([key, value]) => {
+                const field = formSchema.find((f) => f.id === key);
+
+                const label = field?.label || key;
+
+                if (!field?.id) {
+                  return;
+                }
+
+                let formattedValue;
+                if (field?.type === "date") {
+                  const dateValue = dayjs(value);
+                  formattedValue = dateValue.isValid()
+                    ? dateValue.format("DD/MM/YYYY")
+                    : "Invalid Date";
+                } else if (Array.isArray(value)) {
+                  formattedValue = value.join(", ");
+                } else if (field?.type === "switch") {
+                  formattedValue = value ? "Yes" : "No";
+                } else {
+                  formattedValue = value;
+                }
+
+                return (
+                  <div key={key} style={{ marginBottom: "8px" }}>
+                    <strong>{label}:</strong>
+                    <span style={{ marginLeft: "8px" }}>{formattedValue}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </Modal>

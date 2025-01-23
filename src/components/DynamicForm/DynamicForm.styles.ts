@@ -19,7 +19,6 @@ export const DynamicFormContainer = styled.div`
   }
 
   .ant-divider-horizontal {
-    position: absolute;
     left: 0;
     margin-top: 0;
   }
@@ -42,5 +41,41 @@ export const DynamicFormContainer = styled.div`
         height: 39.59px;
       }
     }
+  }
+`;
+
+export const ChargesFormContainer = styled.div`
+  .button-wrapper {
+    display: flex;
+    gap: 10px;
+
+    .action-btn {
+      width: 100%;
+    }
+  }
+
+  .charges-row {
+    margin: 0px 0px 16px 0px !important;
+  }
+
+  .ant-input-number-outlined {
+    width: 100%;
+  }
+
+  .ant-col {
+    padding: 0px 8px 0px 0px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .ant-form-item-control-input-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ant-select-selector,
+  .ant-picker-outlined,
+  .ant-input {
+    min-width: 200px;
   }
 `;

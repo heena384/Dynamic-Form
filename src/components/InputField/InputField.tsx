@@ -48,7 +48,7 @@ const InputSearch: React.FC<InputSearchProps> = ({
     <InputSearchContainer className="test">
       <AutoComplete
         popupMatchSelectWidth={252}
-        style={{ width: 300 }}
+        style={{ width: "100%" }}
         options={filteredOptions}
         onSearch={handleSearch}
         onSelect={handleSelect}

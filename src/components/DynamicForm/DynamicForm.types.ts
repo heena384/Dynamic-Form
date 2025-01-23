@@ -1,9 +1,33 @@
 export interface FormValues {
-  supplier: number; // ID of the selected supplier
-  shipFrom: number; // ID of the selected terminal
-  paymentTerm: number; // ID of the selected payment term
-  product: number; // ID of the selected product
-  comments?: string; // Optional comments field
+  supplier: string;
+  shipFrom: string;
+  shipVia: string;
+  paymentTerm: string;
+  taxState: string;
+  ref?: string;
+  invoiceNumber: number;
+  invoiceDate: Date;
+  dueDate: Date;
+  discDueDate?: Date;
+  postingDate: Date;
+  paymentMethod: string;
+  paymentOnHold?: boolean;
+  contractNumber?: number;
+  deferredInvoiceNumber?: number;
+  deferredTaxDueDate?: Date;
+  listOfChartOfAccount?: string;
+}
+
+export interface ProductFormValues {
+  listOfProducts: string;
+  billOfLanding: string;
+  pickupDate: Date;
+  grossQuantity: number;
+  netquantity: number;
+  rate: number;
+  taxes: number;
+  defTaxes: number;
+  lineTotal: number;
 }
 
 export interface InputFieldOption {
@@ -22,7 +46,7 @@ export interface FieldValues {
   id: string; // Assuming `id` is a string based on the schema.
   label: string;
   type: string; // Could be 'select', 'searchable', etc.
-  options: FieldOption[]; // Array of `FieldOption` objects.
-  required: boolean;
+  options?: FieldOption[] | undefined; // Array of `FieldOption` objects.
+  required?: boolean;
   inputField?: string;
 }

@@ -43,6 +43,8 @@ export const ModalContainer = styled(AntdModal)`
         border: 1px solid #eee;
         border-radius: 8px;
         padding: 10px;
+        max-height: 410px;
+        overflow-y: scroll;
       }
       .button-wrapper {
         display: flex;

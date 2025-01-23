@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 export const InputSearchContainer = styled.div`
+  width: 100%;
+
   .ant-btn-variant-solid {
     background-color: #fff;
   }

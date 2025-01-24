@@ -13,9 +13,9 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, title, children }) => {
     <ModalContainer
       open={show}
       title={title}
-      footer={null} // No footer by default
+      footer={null}
       onCancel={onClose}
-      closeIcon={<span style={{ display: "none" }} />} // Add custom close behavior
+      closeIcon={<span style={{ display: "none" }} />}
     >
       {children}
       <div className="button-wrapper">

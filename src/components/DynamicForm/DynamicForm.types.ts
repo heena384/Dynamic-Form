@@ -32,21 +32,21 @@ export interface ProductFormValues {
 
 export interface InputFieldOption {
   id: number;
-  name: string; // Required for input fields.
+  name: string;
 }
 
 export interface SelectFieldOption {
   label: string;
-  value: string; // Required for select fields.
+  value: string;
 }
 
 export type FieldOption = InputFieldOption | SelectFieldOption;
 
 export interface FieldValues {
-  id: string; // Assuming `id` is a string based on the schema.
+  id: string;
   label: string;
-  type: string; // Could be 'select', 'searchable', etc.
-  options?: FieldOption[] | undefined; // Array of `FieldOption` objects.
+  type: string;
+  options?: FieldOption[] | undefined;
   required?: boolean;
   inputField?: string;
 }

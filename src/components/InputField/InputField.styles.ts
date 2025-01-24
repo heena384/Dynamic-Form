@@ -7,7 +7,6 @@ export const InputSearchContainer = styled.div`
     background-color: #fff;
   }
 
-  /* Ensure the hover on .ant-input-outlined affects the sibling .ant-input-group-addon */
   .ant-input {
     border-radius: 5px;
     border-right: 0;

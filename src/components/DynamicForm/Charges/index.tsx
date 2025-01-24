@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Row,
   Col,
@@ -10,6 +10,7 @@ import {
   Switch,
   Form,
   message,
+  Checkbox,
 } from "antd";
 import {
   DeleteFilled,
@@ -52,7 +53,15 @@ const ChargeFields: FC<ChargeFieldsProps> = ({
   setIsSaveDisabled,
 }) => {
   const schema = ChargeSchema;
+
   const [charges, setCharges] = useState<Charge[]>(value);
+  const [isCopyChecked, setIsCopyChecked] = useState(false);
+
+  useEffect(() => {
+    if (charges.length == 0) {
+      handleAdd();
+    }
+  }, []);
 
   const handleAdd = () => {
     const newCharge = { id: `${Date.now()}` };
@@ -83,6 +92,34 @@ const ChargeFields: FC<ChargeFieldsProps> = ({
     );
     setCharges(updatedCharges);
     onChange(updatedCharges);
+
+    if (isCopyChecked && ["billOfLanding", "pickupDate"].includes(field)) {
+      const firstCharge = updatedCharges[0];
+      const syncedCharges = updatedCharges.map((charge) => ({
+        ...charge,
+        billOfLanding: firstCharge.billOfLanding,
+        pickupDate: firstCharge.pickupDate,
+      }));
+      setCharges(syncedCharges);
+      onChange(syncedCharges);
+    }
+  };
+
+  const handleCheckboxChange = (e: any) => {
+    const checked = e.target.checked;
+    setIsCopyChecked(checked);
+
+    if (checked && charges.length > 1) {
+      const firstCharge = charges[0];
+      const updatedCharges = charges.map((charge) => ({
+        ...charge,
+        billOfLanding: firstCharge.billOfLanding,
+        pickupDate: firstCharge.pickupDate,
+      }));
+
+      setCharges(updatedCharges);
+      onChange(updatedCharges);
+    }
   };
 
   const renderField = (field: Field, charges: Charge) => {
@@ -205,7 +242,21 @@ const ChargeFields: FC<ChargeFieldsProps> = ({
 
   return (
     <ChargesFormContainer>
-      <Title>{chargeTitle} charges</Title>
+      <Row>
+        <Col span={12}>
+          <Title>{chargeTitle} charges</Title>
+        </Col>
+        <Col span={12} className="copy-checkbox">
+          {chargeTitle == "Product" && (
+            <Checkbox
+              onChange={handleCheckboxChange}
+              disabled={charges.length == 1}
+            >
+              Copy Bol and datetime
+            </Checkbox>
+          )}
+        </Col>
+      </Row>
       {charges.map(renderChargeRow)}
       {charges.length == 0 && (
         <Button

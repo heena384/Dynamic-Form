@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import {
   Form,
   Button,
@@ -8,6 +8,7 @@ import {
   Divider,
   DatePicker,
   Switch,
+  Input,
 } from "antd";
 import dayjs from "dayjs";
 import { SaveOutlined } from "@ant-design/icons";
@@ -34,8 +35,35 @@ const DynamicForm: FC = () => {
   const [products, setProducts] = useState<FieldValues[]>([]);
   const [otherCharges, setOtherCharges] = useState<FieldValues[]>([]);
   const [isSaveDisable, setIsSaveDisable] = useState(false);
+  const [totalRates, setTotalRates] = useState(0);
+  const [totalTaxes, setTotalTaxes] = useState(0);
+  const [grandTotal, setGrandTotal] = useState(0);
 
   const values = Form.useWatch([], form);
+
+  const calculateSum = useCallback((data: any[], key: string): number => {
+    return data.reduce((sum, item) => {
+      if (Array.isArray(item[key])) {
+        return sum + calculateSum(item[key], key);
+      }
+      return sum + (item[key] || 0);
+    }, 0);
+  }, []);
+
+  useEffect(() => {
+    const calculateTotals = () => {
+      const productRates = calculateSum(products, "rate");
+      const productTaxes = calculateSum(products, "taxes");
+      const otherRates = calculateSum(otherCharges, "otherRate");
+      const otherTaxes = calculateSum(otherCharges, "otherTaxes");
+
+      setTotalRates(productRates + otherRates);
+      setTotalTaxes(productTaxes + otherTaxes);
+      setGrandTotal(productRates + productTaxes + otherRates + otherTaxes);
+    };
+
+    calculateTotals();
+  }, [products, otherCharges, calculateSum]);
 
   useEffect(() => {
     const validateForm = async () => {
@@ -51,7 +79,12 @@ const DynamicForm: FC = () => {
   }, [form, values, products, otherCharges]);
 
   const handleSubmit = (values: FormValues) => {
-    const fullValues = { ...values, products, otherCharges };
+    const totalsField = {
+      subTotal: totalRates,
+      totalTaxes: totalTaxes,
+      total: grandTotal,
+    };
+    const fullValues = { ...values, products, otherCharges, totalsField };
     console.log("Submitted values:", fullValues);
     setSubmittedValues(fullValues);
     setShowSuccessModal(true);
@@ -116,6 +149,39 @@ const DynamicForm: FC = () => {
     return (
       <div>
         {Object.entries(submittedValues || {}).map(([key, value]) => {
+          if (
+            key === "totalsField" &&
+            typeof value === "object" &&
+            value !== null
+          ) {
+            const getFieldkey = (key: string) => {
+              let fieldKey = "";
+              if (key == "subTotal") {
+                fieldKey = "Sub Total";
+              } else if (key == "totalTaxes") {
+                fieldKey = "Taxes";
+              } else {
+                fieldKey = "Total";
+              }
+
+              return fieldKey;
+            };
+
+            return (
+              <div key={key} style={{ marginBottom: "16px" }}>
+                <strong>Totals:</strong>
+                <div style={{ marginLeft: "16px" }}>
+                  {Object.entries(value).map(([fieldKey, fieldValue]: any) => (
+                    <div key={fieldKey} style={{ marginBottom: "4px" }}>
+                      <strong>{getFieldkey(fieldKey)}:</strong>
+                      <span style={{ marginLeft: "8px" }}>{fieldValue}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+
           const field = formSchema.find((f) => f.id === key);
 
           if (!field?.id) return null;
@@ -182,7 +248,7 @@ const DynamicForm: FC = () => {
         ))}
         {otherCharges?.map((otherCharges, index) => (
           <div key={otherCharges.id} style={{ marginBottom: "16px" }}>
-            <strong>otherCharges {index + 1}:</strong>
+            <strong>Other Charges {index + 1}:</strong>
             <div style={{ marginLeft: "16px" }}>
               {Object.entries(otherCharges).map(
                 ([otherChargesKey, otherChargesValue]) => {
@@ -291,6 +357,42 @@ const DynamicForm: FC = () => {
             setIsSaveDisabled={setIsSaveDisable}
           />{" "}
         </Form.Item>
+
+        <Row gutter={16} className="total-fields-row">
+          <Col span={8}>
+            <Form.Item label="Sub Total">
+              <Input
+                id="subTotal"
+                value={totalRates}
+                readOnly
+                style={{ width: "100%" }}
+                disabled
+              />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item label="Taxes">
+              <Input
+                id="totalTaxes"
+                value={totalTaxes}
+                readOnly
+                style={{ width: "100%" }}
+                disabled
+              />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item label="Total">
+              <Input
+                id="total"
+                value={grandTotal}
+                readOnly
+                style={{ width: "100%" }}
+                disabled
+              />
+            </Form.Item>
+          </Col>
+        </Row>
         <div className="button-row">
           <Divider />
           <Form.Item className="button-container">

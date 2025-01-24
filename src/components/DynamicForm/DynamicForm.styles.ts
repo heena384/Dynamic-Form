@@ -33,6 +33,30 @@ export const DynamicFormContainer = styled.div`
     }
   }
 
+  .total-fields-row {
+    flex-direction: column;
+    align-items: flex-end;
+
+    .ant-form-item-row {
+      flex-direction: row !important;
+      flex-flow: nowrap;
+
+      .ant-form-item-label {
+        padding-bottom: 0px;
+        label {
+          flex-wrap: nowrap;
+          white-space: nowrap;
+          width: 120px;
+          min-width: 120px;
+          margin-right: 12px;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+        }
+      }
+    }
+  }
+
   @media (max-width: 1341px) and (min-width: 768px) {
     .field-column {
       max-width: 50%;
@@ -77,5 +101,11 @@ export const ChargesFormContainer = styled.div`
   .ant-picker-outlined,
   .ant-input {
     min-width: 200px;
+  }
+
+  .copy-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 `;

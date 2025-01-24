@@ -235,8 +235,8 @@ export const otherChargesSchema = [
     required: false,
   },
   {
-    id: "Quantity",
-    label: "quantity",
+    id: "quantity",
+    label: "Quantity",
     type: "number",
     inputField: "number",
     required: false,

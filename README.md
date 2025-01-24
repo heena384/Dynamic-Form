@@ -1,74 +1,77 @@
-# React + TypeScript + Vite Dynamic Form Project
 
-This project is a minimal React setup using Vite and TypeScript. It includes dynamic form handling, validation, and the ability to populate form fields automatically based on a schema. Additionally, it integrates a modal to display the submitted form data and console logging of the submitted values.
+### React + TypeScript + Vite Dynamic Form Project
 
-## Project Features
+This project demonstrates a dynamic form handling setup using React, TypeScript, and Vite. The form is auto-generated based on a schema and includes robust validation, modal-based result display, and console logging for debugging.
 
-- **Dynamic Form Fields**: The form fields are generated dynamically from a `formSchema` file. If a new field is added to the schema, the form automatically updates in the UI.
-- **Field Validation**: Required field validation is implemented. The "Save" button is only enabled if all required fields are valid.
-- **Modal on Success**: Upon successful form submission, a modal will appear displaying the submitted values.
-- **Console Output**: The form data is also logged to the console after submission.
+#### Features
+`Dynamic Form Generation`: The form fields are dynamically rendered from a schema. Any updates to the schema instantly reflect in the UI.
 
-## Technologies Used
+`Validation Rules`: Built-in validation ensures that required fields are filled before enabling the "Save" button.
 
-- **React**: JavaScript library for building user interfaces.
-- **TypeScript**: Typed superset of JavaScript for better tooling and validation.
-- **Vite**: A fast and modern build tool for front-end projects.
-- **ESLint**: Linting setup for consistent code quality.
+`Success Modal`: Displays submitted form data in a modal upon successful submission.
+Console Debugging: Logs the submitted data to the console for easier debugging.
 
-## Approach
+`Customizable Schema`: Modify the schema to dynamically add, remove, or update form fields.
+Technologies Used
 
-1. **Dynamic Form Rendering**: 
-   - A `formSchema` file defines the structure of the form, including field names, types, and validation rules.
-   - The form is automatically populated based on this schema. When fields are added or removed from the schema, the form UI updates accordingly.
+`React`: For building the dynamic user interface.
+`TypeScript`: Provides static typing for better code safety and developer productivity.
+`Vite`: A blazing-fast development environment and build tool.
+`ESLint`: Ensures code consistency and quality.
 
-2. **Form Validation**:
-   - Each form field is validated based on the rules defined in the schema.
-   - The "Save" button is only enabled when all required fields pass validation.
+### Approach
+1. Dynamic Form Rendering
+The formSchema defines the structure, labels, and validation rules of the form.
+The application automatically generates form fields based on this schema, making it highly flexible.
 
-3. **Form Submission**:
-   - When the form is submitted successfully, a modal opens with the submitted values.
-   - The values are also logged to the console for debugging purposes.
+2. Form Validation
+Each field includes validation rules defined in the schema.
+The "Save" button remains disabled until all required fields are valid.
 
-## Steps to Run the Project Locally
+3. Form Submission
+Upon submission, the form data is displayed in a modal and logged to the console.
+This allows users to visualize and debug the data before integrating with a backend.
 
-### 1. Clone the Repository
+### Steps to Run the Project Locally
 
-```bash
-git clone https://github.com/yourusername/react-vite-typescript-form.git
+1. *Clone the Repository*
+Clone the repository to your local machine using the following command:
 
+`git clone https://github.com/heena384/Dynamic-Form.git`
 
-1. Clone the Repository
-cd react-vite-typescript-form
+2. *Navigate to the Project Directory*
+Move into the project directory:
 
+`cd dynamic-form-template`
 
-3. Install Dependencies
-Install the required dependencies using npm or yarn.
+3. *Install Dependencies*
+Install the required dependencies using npm or yarn:
 
-npm install
+`npm install`
 # or
-yarn install
+`yarn install`
 
+4. *Run the Development Server*
+Start the development server with:
 
-4. Run the Project Locally
-To start the development server and run the project locally, use:
-npm run dev
+`npm run dev`
 # or
-yarn dev
+`yarn dev`
 
 The application will be accessible at http://localhost:3000.
 
+5. *Open the Application in Your Browser*
+Visit the URL http://localhost:3000 in your browser to see the dynamic form rendered.
 
+6. *Modify the Schema*
+To dynamically update the form:
 
-5. Open the Project in Your Browser
-Once the server is running, open your browser and visit the URL http://localhost:3000. You should see the dynamic form rendered based on the schema.
+Open the formSchema file.
+Add, remove, or edit fields as needed.
+Save the file and reload the page to see the changes instantly.
 
-
-6. Modify the formSchema
-You can modify the formSchema file to add or remove fields dynamically. The form will automatically reflect the changes when reloaded.
-
-
-###Future Improvements
-Implement more advanced form validation, including custom rules and error messages.
-Add support for form field types beyond text inputs, such as checkboxes, radio buttons, and selects.
-Integrate a backend API for saving the form data.
+### Future Improvements
+Advanced Validation: Add custom validation rules and detailed error messages.
+Enhanced Field Types: Extend support  radio buttons, file uploads, and more.
+Backend Integration: Connect the form to a backend API for data persistence.
+Styling Enhancements: Improve the UI/UX with better styling and layout.

@@ -57,6 +57,22 @@ export const DynamicFormContainer = styled.div`
     }
   }
 
+  @media (max-width: 768px) {
+    .total-fields-row {
+      .ant-col {
+        width: 100%;
+        max-width: 100%;
+        .ant-form-item-control {
+          flex: 1 !important;
+        }
+
+        .ant-form-item-label {
+          max-width: 50% !important;
+        }
+      }
+    }
+  }
+
   @media (max-width: 1341px) and (min-width: 768px) {
     .field-column {
       max-width: 50%;
@@ -107,5 +123,11 @@ export const ChargesFormContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
+  }
+
+  @media (max-width: 768px) {
+    .button-wrapper {
+      min-width: 70px;
+    }
   }
 `;
